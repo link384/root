@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - D'Mima</title>
+    <link rel="shortcut icon" href="./src/assets/icons/carrito.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginScreen">
+        <div class="login-box">
+            <div class="login-header">
+                <img src="./img/logo.png" alt="D'Mima Logo" class="login-logo">
+                <h1>Panel de Control</h1>
+                <p>Ingrese sus credenciales para acceder</p>
+            </div>
+            <form id="loginForm" onsubmit="return adminPanel.login(event)">
+                <div class="form-group">
+                    <label for="username">Usuario</label>
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" name="username" required placeholder="Ingrese su usuario">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contrasena</label>
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" required placeholder="Ingrese su contrasena">
+                    </div>
+                </div>
+                <div class="error-message" id="loginError"></div>
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesion
+                </button>
+            </form>
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Volver a la tienda
+            </a>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-container hidden" id="adminPanel">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="./img/logo.png" alt="D'Mima" class="sidebar-logo">
+                <h2>D'Mima Admin</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="#" class="nav-item" data-section="products">
+                    <i class="fas fa-boxes"></i>
+                    <span>Productos</span>
+                </a>
+                <a href="#" class="nav-item" data-section="categories">
+                    <i class="fas fa-tags"></i>
+                    <span>Categorias</span>
+                </a>
+                <a href="#" class="nav-item" data-section="shipping">
+                    <i class="fas fa-truck"></i>
+                    <span>Envios</span>
+                </a>
+                <a href="#" class="nav-item" data-section="contact">
+                    <i class="fas fa-address-book"></i>
+                    <span>Contacto</span>
+                </a>
+                <a href="#" class="nav-item" data-section="export">
+                    <i class="fas fa-download"></i>
+                    <span>Exportar</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn-logout" onclick="adminPanel.logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Cerrar Sesion</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <button class="menu-toggle" onclick="adminPanel.toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="topbar-title">
+                    <h1 id="sectionTitle">Panel de Control</h1>
+                </div>
+                <div class="topbar-actions">
+                    <a href="index.html" target="_blank" class="btn-view-store">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span>Ver Tienda</span>
+                    </a>
+                </div>
+            </header>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                
+                <!-- Dashboard Section -->
+                <section class="content-section active" id="section-dashboard">
+                    <div class="dashboard-cards">
+                        <div class="dash-card">
+                            <div class="dash-card-icon bg-primary">
+                                <i class="fas fa-boxes"></i>
+                            </div>
+                            <div class="dash-card-info">
+                                <h3 id="totalProducts">0</h3>
+                                <p>Productos</p>
+                            </div>
+                        </div>
+                        <div class="dash-card">
+                            <div class="dash-card-icon bg-success">
+                                <i class="fas fa-tags"></i>
+                            </div>
+                            <div class="dash-card-info">
+                                <h3 id="totalCategories">0</h3>
+                                <p>Categorias</p>
+                            </div>
+                        </div>
+                        <div class="dash-card">
+                            <div class="dash-card-icon bg-warning">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="dash-card-info">
+                                <h3 id="totalMunicipios">0</h3>
+                                <p>Municipios</p>
+                            </div>
+                        </div>
+                        <div class="dash-card">
+                            <div class="dash-card-icon bg-info">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="dash-card-info">
+                                <h3 id="whatsappNumber">---</h3>
+                                <p>WhatsApp</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quick-actions">
+                        <h2>Acciones Rapidas</h2>
+                        <div class="action-buttons">
+                            <button class="action-btn" onclick="adminPanel.showSection('products')">
+                                <i class="fas fa-plus"></i> Agregar Producto
+                            </button>
+                            <button class="action-btn" onclick="adminPanel.showSection('categories')">
+                                <i class="fas fa-edit"></i> Editar Categorias
+                            </button>
+                            <button class="action-btn" onclick="adminPanel.showSection('contact')">
+                                <i class="fas fa-phone"></i> Cambiar Contacto
+                            </button>
+                            <button class="action-btn" onclick="adminPanel.showSection('export')">
+                                <i class="fas fa-download"></i> Exportar Config
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Products Section -->
+                <section class="content-section" id="section-products">
+                    <div class="section-header">
+                        <h2>Gestion de Productos</h2>
+                        <button class="btn-primary" onclick="adminPanel.showProductModal()">
+                            <i class="fas fa-plus"></i> Nuevo Producto
+                        </button>
+                    </div>
+                    <div class="filters-bar">
+                        <select id="filterCategory" onchange="adminPanel.filterProducts()">
+                            <option value="">Todas las categorias</option>
+                        </select>
+                        <input type="text" id="searchProduct" placeholder="Buscar producto..." oninput="adminPanel.filterProducts()">
+                    </div>
+                    <div class="products-grid" id="productsGrid">
+                        <!-- Products will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Categories Section -->
+                <section class="content-section" id="section-categories">
+                    <div class="section-header">
+                        <h2>Gestion de Categorias</h2>
+                        <button class="btn-primary" onclick="adminPanel.showCategoryModal()">
+                            <i class="fas fa-plus"></i> Nueva Categoria
+                        </button>
+                    </div>
+                    <div class="categories-list" id="categoriesList">
+                        <!-- Categories will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Shipping Section -->
+                <section class="content-section" id="section-shipping">
+                    <div class="section-header">
+                        <h2>Municipios y Costos de Envio</h2>
+                        <button class="btn-primary" onclick="adminPanel.showMunicipioModal()">
+                            <i class="fas fa-plus"></i> Nuevo Municipio
+                        </button>
+                    </div>
+                    <div class="municipios-list" id="municipiosList">
+                        <!-- Municipios will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Contact Section -->
+                <section class="content-section" id="section-contact">
+                    <div class="section-header">
+                        <h2>Informacion de Contacto</h2>
+                    </div>
+                    <div class="contact-form">
+                        <div class="form-card">
+                            <h3><i class="fab fa-whatsapp"></i> WhatsApp de la Tienda</h3>
+                            <p class="form-description">Este numero se usara para recibir todos los pedidos y consultas de los clientes.</p>
+                            <div class="form-group">
+                                <label>Numero de WhatsApp (sin el +)</label>
+                                <input type="text" id="whatsappInput" placeholder="5363282554">
+                            </div>
+                            <button class="btn-primary" onclick="adminPanel.saveWhatsApp()">
+                                <i class="fas fa-save"></i> Guardar WhatsApp
+                            </button>
+                        </div>
+                        <div class="form-card">
+                            <h3><i class="fas fa-map-marker-alt"></i> Direccion de la Tienda</h3>
+                            <p class="form-description">Direccion fisica donde los clientes pueden recoger sus pedidos.</p>
+                            <div class="form-group">
+                                <label>Direccion completa</label>
+                                <textarea id="addressInput" rows="3" placeholder="Ingrese la direccion de la tienda..."></textarea>
+                            </div>
+                            <button class="btn-primary" onclick="adminPanel.saveAddress()">
+                                <i class="fas fa-save"></i> Guardar Direccion
+                            </button>
+                        </div>
+                        <div class="form-card">
+                            <h3><i class="fas fa-store"></i> Nombre de la Tienda</h3>
+                            <p class="form-description">Nombre que aparecera en toda la tienda.</p>
+                            <div class="form-group">
+                                <label>Nombre de la tienda</label>
+                                <input type="text" id="storeNameInput" placeholder="D'Mima">
+                            </div>
+                            <button class="btn-primary" onclick="adminPanel.saveStoreName()">
+                                <i class="fas fa-save"></i> Guardar Nombre
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Export Section -->
+                <section class="content-section" id="section-export">
+                    <div class="section-header">
+                        <h2>Exportar Configuracion</h2>
+                    </div>
+                    <div class="export-info-banner">
+                        <div class="export-info-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="export-info-text">
+                            <strong>Exportacion de archivos del sistema</strong>
+                            <p>Los archivos exportados son los ficheros reales que usa la tienda. Reemplace los archivos originales con estos para aplicar los cambios de forma permanente.</p>
+                        </div>
+                    </div>
+                    <div class="export-options">
+                        <div class="export-card export-card-main">
+                            <div class="export-icon">
+                                <i class="fas fa-file-archive"></i>
+                            </div>
+                            <h3>Exportar Todos los Archivos</h3>
+                            <p>Descarga todos los archivos del sistema con la configuracion actualizada: datos de productos, categorias, municipios y contacto.</p>
+                            <button class="btn-primary btn-large" onclick="adminPanel.exportAllFiles()">
+                                <i class="fas fa-download"></i> Descargar Todo (ZIP)
+                            </button>
+                        </div>
+                        <div class="export-card">
+                            <div class="export-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <h3>dados.js</h3>
+                            <p>Archivo con todos los productos y el menu de la tienda.</p>
+                            <button class="btn-secondary" onclick="adminPanel.exportDadosJS()">
+                                <i class="fas fa-download"></i> Descargar dados.js
+                            </button>
+                        </div>
+                        <div class="export-card">
+                            <div class="export-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h3>app-data.js</h3>
+                            <p>Archivo de configuracion con WhatsApp, direccion, municipios y categorias.</p>
+                            <button class="btn-secondary" onclick="adminPanel.exportAppJS()">
+                                <i class="fas fa-download"></i> Descargar app-data.js
+                            </button>
+                        </div>
+                        <div class="export-card">
+                            <div class="export-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3>index.html</h3>
+                            <p>Pagina principal con nombre de tienda y enlaces de contacto actualizados.</p>
+                            <button class="btn-secondary" onclick="adminPanel.exportIndexHTML()">
+                                <i class="fas fa-download"></i> Descargar index.html
+                            </button>
+                        </div>
+                    </div>
+                    <div class="export-instructions">
+                        <h3><i class="fas fa-question-circle"></i> Como aplicar los cambios</h3>
+                        <ol>
+                            <li>Descargue los archivos que desea actualizar</li>
+                            <li>Reemplace los archivos originales en su servidor con los descargados</li>
+                            <li>Los cambios se aplicaran inmediatamente al recargar la tienda</li>
+                        </ol>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal-overlay hidden" id="productModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="productModalTitle">Nuevo Producto</h2>
+                <button class="modal-close" onclick="adminPanel.closeProductModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="productForm" onsubmit="return adminPanel.saveProduct(event)">
+                <input type="hidden" id="productId">
+                <input type="hidden" id="productOldCategory">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nombre del producto *</label>
+                        <input type="text" id="productName" required placeholder="Ej: Amoxicilina 500mg">
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria *</label>
+                        <select id="productCategory" required></select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Precio (MN$) *</label>
+                        <input type="number" id="productPrice" required min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label>Unidad</label>
+                        <select id="productUnit">
+                            <option value="unidad">Unidad</option>
+                            <option value="lb">Libra (lb)</option>
+                            <option value="kg">Kilogramo (kg)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descripcion</label>
+                    <textarea id="productDesc" rows="2" placeholder="Descripcion breve del producto..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Imagen del producto</label>
+                    <div class="image-upload-section">
+                        <div class="image-upload-options">
+                            <button type="button" class="upload-option-btn active" onclick="adminPanel.toggleImageUploadMode('url')" id="btnModeUrl">
+                                <i class="fas fa-link"></i> URL
+                            </button>
+                            <button type="button" class="upload-option-btn" onclick="adminPanel.toggleImageUploadMode('file')" id="btnModeFile">
+                                <i class="fas fa-upload"></i> Subir Archivo
+                            </button>
+                        </div>
+                        <div class="image-url-input" id="imageUrlSection">
+                            <input type="text" id="productImg" placeholder="./img/cardapio/categoria/imagen.jpg">
+                        </div>
+                        <div class="image-file-input hidden" id="imageFileSection">
+                            <label class="file-upload-label" for="productImgFile">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Haga clic para seleccionar una imagen</span>
+                                <span class="file-types">JPG, PNG, WebP, GIF (max 5MB)</span>
+                            </label>
+                            <input type="file" id="productImgFile" accept="image/*" onchange="adminPanel.handleImageUpload(event)" class="file-input-hidden">
+                        </div>
+                        <div class="image-preview" id="imagePreview"></div>
+                    </div>
+                </div>
+                
+                <!-- Seccion de Opciones/Agregados -->
+                <div class="form-group options-section">
+                    <div class="options-header">
+                        <label>Opciones / Agregados</label>
+                        <button type="button" class="btn-small btn-add-option" onclick="adminPanel.addOptionGroup()">
+                            <i class="fas fa-plus"></i> Agregar Opcion
+                        </button>
+                    </div>
+                    <p class="options-help">Agrega variantes como sabores, tamanios, extras, etc. Puedes asignar precio adicional a cada opcion.</p>
+                    <div id="optionsContainer"></div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="adminPanel.closeProductModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Guardar Producto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Category Modal -->
+    <div class="modal-overlay hidden" id="categoryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="categoryModalTitle">Nueva Categoria</h2>
+                <button class="modal-close" onclick="adminPanel.closeCategoryModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="categoryForm" onsubmit="return adminPanel.saveCategory(event)">
+                <input type="hidden" id="categoryKey">
+                <input type="hidden" id="categoryIsNew">
+                <div class="form-group">
+                    <label>Clave interna (sin espacios) *</label>
+                    <input type="text" id="categoryClave" required placeholder="ej: antibioticos" pattern="[a-z0-9_-]+" title="Solo letras minusculas, numeros, guiones y guion bajo">
+                </div>
+                <div class="form-group">
+                    <label>Nombre visible *</label>
+                    <input type="text" id="categoryName" required placeholder="Ej: Antibioticos">
+                </div>
+                <div class="form-group">
+                    <label>Icono (clase FontAwesome)</label>
+                    <input type="text" id="categoryIcon" placeholder="fas fa-pills">
+                    <small>Ejemplos: fas fa-pills, fas fa-box, fas fa-heart, fas fa-medkit</small>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="adminPanel.closeCategoryModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Guardar Categoria
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Municipio Modal -->
+    <div class="modal-overlay hidden" id="municipioModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="municipioModalTitle">Nuevo Municipio</h2>
+                <button class="modal-close" onclick="adminPanel.closeMunicipioModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="municipioForm" onsubmit="return adminPanel.saveMunicipio(event)">
+                <input type="hidden" id="municipioIndex" value="-1">
+                <div class="form-group">
+                    <label>ID del municipio (sin espacios) *</label>
+                    <input type="text" id="municipioId" required placeholder="ej: vedado" pattern="[a-z0-9_-]+" title="Solo letras minusculas, numeros, guiones y guion bajo">
+                </div>
+                <div class="form-group">
+                    <label>Nombre del municipio *</label>
+                    <input type="text" id="municipioName" required placeholder="Ej: Vedado">
+                </div>
+                <div class="form-group">
+                    <label>Costo de envio (MN$) *</label>
+                    <input type="number" id="municipioCost" required min="0" placeholder="0">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="adminPanel.closeMunicipioModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Guardar Municipio
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="js/dados.js"></script>
+    <script src="js/app-data.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

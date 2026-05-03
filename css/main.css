@@ -469,7 +469,44 @@ a.navbar-brand {
 .card-item .price-produto {
     color: var(--color-primary);
     font-size: 22px;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
+}
+
+.card-item .price-produto .unit-label {
+    font-size: 14px;
+    font-weight: normal;
+    color: var(--color-text-out);
+}
+
+/* Selector de unidad de peso (lb/kg) */
+.card-item .unit-selector {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.card-item .unit-selector .unit-btn {
+    background-color: var(--color-background);
+    border: 2px solid var(--color-separate);
+    color: var(--color-text);
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: 'PoppinsMedium', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.card-item .unit-selector .unit-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.card-item .unit-selector .unit-btn.active {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
 }
 
 /* Controles de agregado: siempre visibles */
@@ -843,6 +880,37 @@ margin-top: 2px;
     color: var(--color-primary);
     font-size: 24px;
     margin-bottom: 0;
+}
+
+/* Badge de unidad en el carrito */
+.modal-full .unit-badge-cart {
+    font-size: 12px;
+    color: var(--color-text-out);
+    font-weight: normal;
+    margin-left: 4px;
+}
+
+.modal-full .unit-label-cart {
+    font-size: 14px;
+    color: var(--color-text-out);
+    font-weight: normal;
+}
+
+/* Badge de unidad en el resumen del pedido */
+.modal-full .unit-badge-resumo {
+    font-size: 11px;
+    color: var(--color-white);
+    background-color: var(--color-primary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    font-weight: 500;
+}
+
+.modal-full .unit-label-resumo {
+    font-size: 12px;
+    color: var(--color-text-out);
+    font-weight: normal;
 }
 
 .modal-full .dados-produto {
@@ -2326,6 +2394,13 @@ body.modal-abierto {
     margin-left: 2px;
 }
 
+.optional-label {
+    color: var(--color-text-out);
+    font-weight: 400;
+    font-size: 0.85em;
+    margin-left: 4px;
+}
+
 .hint-entrega {
     display: flex;
     align-items: center;
@@ -2635,4 +2710,225 @@ body.modal-abierto {
     .resumo-orden-valor {
         font-size: 17px;
     }
+}
+
+/* ============================================= */
+/* Nota informativa sobre número de orden        */
+/* ============================================= */
+.orden-nota-importante {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+    border-radius: 12px;
+    border-left: 4px solid #ffa000;
+    box-shadow: 0 2px 8px rgba(255, 160, 0, 0.15);
+    animation: pulseNota 2s ease-in-out infinite;
+}
+
+@keyframes pulseNota {
+    0%, 100% {
+        box-shadow: 0 2px 8px rgba(255, 160, 0, 0.15);
+    }
+    50% {
+        box-shadow: 0 4px 16px rgba(255, 160, 0, 0.3);
+    }
+}
+
+.orden-nota-icono {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffa000;
+    border-radius: 50%;
+    animation: bounceIcon 1s ease-in-out infinite;
+}
+
+@keyframes bounceIcon {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.orden-nota-icono i {
+    color: #fff;
+    font-size: 16px;
+}
+
+.orden-nota-contenido {
+    flex: 1;
+}
+
+.orden-nota-titulo {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #e65100;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.orden-nota-texto {
+    margin: 0;
+    font-size: 13px;
+    color: #5d4037;
+    line-height: 1.5;
+}
+
+/* Responsive: móviles */
+@media (max-width: 575px) {
+    .orden-nota-importante {
+        padding: 12px 14px;
+        gap: 10px;
+    }
+    
+    .orden-nota-icono {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .orden-nota-icono i {
+        font-size: 14px;
+    }
+    
+    .orden-nota-titulo {
+        font-size: 12px;
+    }
+    
+    .orden-nota-texto {
+        font-size: 12px;
+    }
+}
+
+/* ============================================= */
+/* ======  SELECTOR DE OPCIONES DE PRODUCTO ==== */
+/* ============================================= */
+
+.product-options-container {
+    margin: 12px 0;
+    padding: 0 4px;
+}
+
+.product-option-group {
+    margin-bottom: 10px;
+}
+
+.product-option-group:last-child {
+    margin-bottom: 0;
+}
+
+.option-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-black);
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.option-required {
+    color: var(--color-red);
+    margin-left: 2px;
+}
+
+.option-choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+}
+
+.option-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text);
+    background-color: var(--color-white);
+    border: 2px solid var(--color-separate);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.option-chip:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background-color: var(--color-secondary);
+    transform: translateY(-1px);
+}
+
+.option-chip.selected {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+    box-shadow: 0 2px 8px rgba(255, 123, 0, 0.3);
+}
+
+.option-chip:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 123, 0, 0.25);
+}
+
+/* Botón deshabilitado cuando faltan opciones */
+.btn-add.btn-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    background-color: var(--color-separate);
+}
+
+.btn-add.btn-disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Badge de opciones en el carrito */
+.options-badge-cart {
+    display: block;
+    font-size: 11px;
+    color: var(--color-primary);
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.options-badge-resumo {
+    display: block;
+    font-size: 10px;
+    color: var(--color-primary);
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+/* Responsive para opciones */
+@media (max-width: 575px) {
+    .option-chip {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    
+    .option-label {
+        font-size: 11px;
+    }
+    
+    .option-choices {
+        gap: 4px;
+    }
+}
+
+/* Card con opciones - altura ajustada */
+.card-item[data-has-options="true"] {
+    min-height: 500px;
 }
